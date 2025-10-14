@@ -1,10 +1,15 @@
 const url ="https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies";
 
 const dropdowns= document.querySelectorAll(".dropdown select")
-const btn = document.querySelector("form button")
+const btn = document.querySelector(".btn")
 let fromcurr=document.querySelector(".from select")
 let tocurr=document.querySelector(".to select")
+let msg=document.querySelector(".msg")
 
+
+document.addEventListener("load",()=>{
+  updateExchangeRate()
+})
 
 for( let select of dropdowns){
     for (curcode in countryList){
@@ -32,6 +37,13 @@ const updateExchangeRate = async () => {
     amtVal = 1;
     amount.value = "1";
 }
+  const url=`${BASE_URL}/${fromcurr.value.toLowerCase()}/${tocurr.value.toLowerCase()}`
+  let responce=await fetch(url)
+  let data= await responce.json()
+  let rate=data[tocurr.value.toLowerCase()]
+  let finalamount=amtVal*rate
+  msg=`${amtVal}${fromcurr.value}={finalamount}${tocurr.value}`
+  console.log(responce)
 }
 
 const updateFlag = (element) => {
